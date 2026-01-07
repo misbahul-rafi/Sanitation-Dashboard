@@ -68,7 +68,7 @@ function Dashboard() {
                     <Togle value={activeSSE} setTogle={setActiveSSE} />
 
                 </div>
-                <div className="container">
+                <div className="resource-wrapper">
                     <Card name="CPU" value={resmon.cpu.percent} valueUnit={"%"} />
                     <Card
                         name="Memory"
