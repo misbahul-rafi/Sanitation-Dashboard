@@ -17,6 +17,7 @@ function Dashboard() {
     const baseUrl = import.meta.env.VITE_API_URL;
     const [resmon, setResmon] = useState<ResmonProps>(initialResmon)
     const [cameras, setCameras] = useState<CameraProps[]>([]);
+    const [manager, setManager] = useState<boolean>(false);
     const [activeSSE, setActiveSSE] = useState<boolean>(false)
     const [statusSummary, setStatusSummary] = useState<StatusProps>({
         clean: 0,
@@ -37,6 +38,7 @@ function Dashboard() {
 
             setResmon(data.system);
             setCameras(data.cameras);
+            setManager(data.manager)
 
             const allTables = data.cameras.flatMap((camera: CameraProps) => camera.tables);
             const counts: StatusProps = { clean: 0, used: 0, dirty: 0 };
@@ -91,20 +93,29 @@ function Dashboard() {
                 <div className="title">
                     <h3>Camera Monitor</h3>
                 </div>
-                <div className="status-summary">
-                    {Object.entries(statusSummary).map(([status, count]) => (
-                        <SummaryCard
-                            key={`summary-${status}`}
-                            status={status}
-                            count={count}
-                        />
-                    ))}
-                </div>
-                <div className="camera-wrapper">
-                    {cameras.map((camera) => (
-                        <CameraDisplay key={camera.name} camera={camera} />
-                    ))}
-                </div>
+                {manager ?
+                    <>
+                        <div className="status-summary">
+                            {Object.entries(statusSummary).map(([status, count]) => (
+                                <SummaryCard
+                                    key={`summary-${status}`}
+                                    status={status}
+                                    count={count}
+                                />
+                            ))}
+                        </div>
+                        <div className="camera-wrapper">
+                            {cameras.map((camera) => (
+                                <CameraDisplay key={camera.name} camera={camera} />
+                            ))}
+                        </div>
+                    </>
+                    :
+                    <div className="close">
+                        <p>Out of Operational Time</p>
+                        <img src="/close.png" alt="Close Icon"/>
+                    </div>
+                }
             </section>
         </main>
     );
