@@ -24,9 +24,6 @@ function Dashboard() {
         dirty: 0
     })
 
-
-    // const resetValue = () => setResmon(initialResmon);
-
     useEffect(() => {
         if (!activeSSE) {
             setResmon(initialResmon);
@@ -38,11 +35,9 @@ function Dashboard() {
         source.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-            // update resmon & cameras
             setResmon(data.system);
             setCameras(data.cameras);
 
-            // hitung summary status dari semua kamera
             const allTables = data.cameras.flatMap((camera: CameraProps) => camera.tables);
             const counts: StatusProps = { clean: 0, used: 0, dirty: 0 };
 
@@ -57,8 +52,6 @@ function Dashboard() {
 
         return () => source.close();
     }, [activeSSE]);
-
-
 
     return (
         <main className="dashboard">

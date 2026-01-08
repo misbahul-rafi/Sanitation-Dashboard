@@ -245,7 +245,7 @@ section {
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 770px) {
     html {
         background: url("assets/images/potr-bg.webp");
         background-position: top;
